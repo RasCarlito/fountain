@@ -1,0 +1,39 @@
+[submodule "fountain-generator"]
+	path = fountain-generator
+	url = git@github.com:FountainJS/fountain-generator.git
+[submodule "generator-fountain-angular1"]
+	path = generator-fountain-angular1
+	url = git@github.com:FountainJS/generator-fountain-angular1.git
+[submodule "generator-fountain-angular2"]
+	path = generator-fountain-angular2
+	url = git@github.com:FountainJS/generator-fountain-angular2.git
+[submodule "generator-fountain-browsersync"]
+	path = generator-fountain-browsersync
+	url = git@github.com:FountainJS/generator-fountain-browsersync.git
+[submodule "generator-fountain-eslint"]
+	path = generator-fountain-eslint
+	url = git@github.com:FountainJS/generator-fountain-eslint.git
+[submodule "generator-fountain-gulp"]
+	path = generator-fountain-gulp
+	url = git@github.com:FountainJS/generator-fountain-gulp.git
+[submodule "generator-fountain-inject"]
+	path = generator-fountain-inject
+	url = git@github.com:FountainJS/generator-fountain-inject.git
+[submodule "generator-fountain-karma"]
+	path = generator-fountain-karma
+	url = git@github.com:FountainJS/generator-fountain-karma.git
+[submodule "generator-fountain-react"]
+	path = generator-fountain-react
+	url = git@github.com:FountainJS/generator-fountain-react.git
+[submodule "generator-fountain-systemjs"]
+	path = generator-fountain-systemjs
+	url = git@github.com:FountainJS/generator-fountain-systemjs.git
+[submodule "generator-fountain-tslint"]
+	path = generator-fountain-tslint
+	url = git@github.com:FountainJS/generator-fountain-tslint.git
+[submodule "generator-fountain-webapp"]
+	path = generator-fountain-webapp
+	url = git@github.com:FountainJS/generator-fountain-webapp.git
+[submodule "generator-fountain-webpack"]
+	path = generator-fountain-webpack
+	url = git@github.com:FountainJS/generator-fountain-webpack.git
