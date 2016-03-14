@@ -13,7 +13,7 @@ function computeDeps(folder) {
   const deps = fountainDeps(folder);
   const result = deps.map(dep => [folder, dep]);
   deps.forEach(dep => {
-    result.push(...computeDeps(dep));
+    Array.prototype.push.apply(result, computeDeps(dep));
   });
   return result;
 }
