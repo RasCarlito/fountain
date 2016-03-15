@@ -1,6 +1,8 @@
+process.env.DEBUG = 'horseman';
+
 const path = require('path');
 const product = require('cartesian-product');
-const exec = require('../scripts/exec');
+const serve = require('../scripts/serve');
 const helper = require('../scripts/yeoman-helper');
 const expect = require('chai').expect;
 const Horseman = require('node-horseman');
@@ -9,20 +11,21 @@ const horseman = new Horseman({
 });
 
 function horseTest() {
-  return new Promise(resolve => {
-    const serve = exec('gulp', ['serve']).process;
-    setTimeout(() => {
-      horseman
-        .open('http://localhost:3000/')
-        .count('h3')
-        .then(result => {
-          expect(result).to.equal(8);
-        })
-        .finally(() => {
-          serve.kill('SIGTERM');
-          resolve();
-        });
-    }, 10000);
+  const serveObj = serve();
+
+  return serveObj.promise.then(url => {
+    return horseman
+      .on('consoleMessage', message => {
+        console.log('[PhantomJS console]', message);
+      })
+      .open(url)
+      .count('h3')
+      .then(result => {
+        expect(result).to.equal(8);
+      })
+      .finally(() => {
+        serveObj.process.kill('SIGTERM');
+      });
   });
 }
 
