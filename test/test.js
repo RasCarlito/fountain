@@ -36,7 +36,9 @@ describe('fountain integration test', function () {
     ['react', 'angular1', 'angular2'],
     ['webpack', 'systemjs', 'inject'],
     ['babel', 'js', 'typescript']
-  ]);
+  ])
+    // Angular 2 and Bower are not supported right now
+    .filter(combination => combination[0] !== 'angular2' || combination[1] !== 'inject');
 
   combinations.forEach(combination => {
     const options = {
