@@ -21,6 +21,7 @@ function horseTest() {
       .open(url)
       .count('h3')
       .then(result => {
+        console.log('horse', url, result);
         expect(result).to.equal(8);
       })
       .finally(() => {
@@ -52,7 +53,7 @@ describe('fountain integration test', function () {
     it(`should work with ${options.framework}, ${options.modules}, ${options.js}`, () => {
       return helper.run(options).then(horseTest);
     });
-
-    after(horseman.close);
   });
+
+  after(() => horseman.close());
 });

@@ -1,14 +1,15 @@
 const path = require('path');
 const helpers = require('yeoman-test');
 
+const generatorPath = path.join(__dirname, '../generator-fountain-webapp/generators/app');
+const workPath = path.join(__dirname, '../test/work');
+
 exports.run = function run(prompts) {
   return new Promise(resolve => {
-    const fountain = helpers.createGenerator('fountain-webapp:app', [
-      path.join(__dirname, '../generator-fountain-webapp/generators/app')
-    ], null);
+    const fountain = helpers.createGenerator('fountain-webapp:app', [generatorPath], null);
 
     helpers.mockPrompt(fountain, prompts);
 
-    helpers.testDirectory('work', () => fountain.run(resolve));
+    helpers.testDirectory(workPath, () => fountain.run(resolve));
   });
 };
