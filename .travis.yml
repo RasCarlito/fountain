@@ -1,0 +1,39 @@
+language: node_js
+sudo: false
+node_js:
+  - "5"
+
+notifications:
+  email: false
+
+git:
+  submodules: false
+
+cache:
+  directories:
+    - node_modules
+    - fountain-generator/node_modules
+    - generator-fountain-angular1/node_modules
+    - generator-fountain-angular2/node_modules
+    - generator-fountain-browsersync/node_modules
+    - generator-fountain-eslint/node_modules
+    - generator-fountain-gulp/node_modules
+    - generator-fountain-inject/node_modules
+    - generator-fountain-karma/node_modules
+    - generator-fountain-react/node_modules
+    - generator-fountain-systemjs/node_modules
+    - generator-fountain-tslint/node_modules
+    - generator-fountain-webapp/node_modules
+    - generator-fountain-webpack/node_modules
+
+before_script:
+  - rm -rf fountain-generator/ generator-fountain-*/
+  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - git submodule update --init --recursive
+  - git submodule foreach npm install
+  - node scripts/links.js
+  - npm install -g mocha
+  - mv package.json old.package.json
+  
+script:
+  - mocha test/test
