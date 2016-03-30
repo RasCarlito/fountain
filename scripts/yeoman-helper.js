@@ -10,6 +10,9 @@ exports.run = function run(prompts) {
 
     helpers.mockPrompt(fountain, prompts);
 
-    helpers.testDirectory(workPath, () => fountain.run(resolve));
+    helpers.testDirectory(workPath, () => {
+      fountain.fs.delete(`${workPath}/package.json`);
+      fountain.run(resolve);
+    });
   });
 };
