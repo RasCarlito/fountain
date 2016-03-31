@@ -19,6 +19,7 @@ function horseTest() {
         console.log('[PhantomJS console]', message);
       })
       .open(url)
+      .waitForSelector('h3')
       .count('h3')
       .then(result => {
         console.log('horse', url, result);
