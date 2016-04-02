@@ -6,13 +6,11 @@ const product = require('cartesian-product');
 const gulp = require('./helpers/gulp-helper');
 const yeoman = require('./helpers/yeoman-helper');
 const wdio = require('./helpers/wdio-helper');
-const sauce = require('./helpers/saucelabs-helper');
 
 describe('fountain travis integration test with saucelabs and webdriver.io', function () {
   this.timeout(0);
 
   before(function *() {
-    yield sauce.connect();
     yield wdio.init();
   });
 
@@ -44,6 +42,5 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
 
   after(function *() {
     yield wdio.close();
-    yield sauce.close();
   });
 });
