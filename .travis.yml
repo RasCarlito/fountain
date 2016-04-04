@@ -2,6 +2,10 @@ language: node_js
 sudo: false
 node_js:
   - "5"
+env:
+  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=webpack FOUNTAIN_JS=babel
+  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=babel
+  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=inject FOUNTAIN_JS=babel
 
 notifications:
   email: false
@@ -41,4 +45,4 @@ before_script:
   - npm install -g mocha typings bower
 
 script:
-  - mocha test/travis
+  - mocha test/travis-env
