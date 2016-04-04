@@ -4,7 +4,8 @@ const expect = require('chai').expect;
 const webdriverio = require('webdriverio');
 
 const wdioOptions = {
-  logLevel: 'verbose',
+  logLevel: 'debug',
+  logOutput: process.stdout,
   desiredCapabilities: {
     browserName: 'chrome',
     idleTimeout: 1000
@@ -47,8 +48,10 @@ exports.techsTest = function techsTest(url) {
         try {
           expect(elements.value.length).to.equal(8);
           resolve();
+          console.log('Resolved techsTest promise');
         } catch (error) {
           reject(error);
+          console.log('Rejected techsTest promise');
         }
       }, reject);
   });

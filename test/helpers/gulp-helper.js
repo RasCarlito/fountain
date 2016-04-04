@@ -4,11 +4,14 @@ const exec = require('../../scripts/exec');
 const spy = require('through2-spy');
 const regex = /\[BS\] Access URLs:\n -*\n.*\n *External: ([^\s]*)/;
 
-let serveProcess;
+let serveProcess = null;
 
 exports.serve = function serve() {
   return new Promise(resolve => {
     let logs = '';
+    if (serveProcess !== null) {
+      console.warn('Server process still running !!!!');
+    }
     serveProcess = exec('gulp', ['serve'], {stdio: 'pipe'}).process;
     serveProcess.stderr.pipe(process.stderr);
     serveProcess.stdout.pipe(spy(chunk => {
@@ -23,4 +26,5 @@ exports.serve = function serve() {
 
 exports.killServe = function killServe() {
   serveProcess.kill('SIGTERM');
+  serveProcess = null;
 };
