@@ -1,7 +1,6 @@
 'use strict';
 
 require('co-mocha');
-const product = require('cartesian-product');
 
 const gulp = require('./helpers/gulp-helper');
 const yeoman = require('./helpers/yeoman-helper');
@@ -29,7 +28,7 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
     yield wdio.techsTest(url);
     gulp.killServe();
   });
-  
+
   after(function *() {
     yield wdio.close();
   });
