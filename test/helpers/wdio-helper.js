@@ -8,7 +8,8 @@ const wdioOptions = {
   logOutput: process.stdout,
   desiredCapabilities: {
     browserName: 'chrome',
-    idleTimeout: 1000
+    idleTimeout: 1000,
+    maxDuration: 3600
   }
 };
 
