@@ -15,7 +15,7 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
   });
 
   const options = {
-    framework: process.env.FOUNTAIN_FRAMWORK,
+    framework: process.env.FOUNTAIN_FRAMEWORK,
     modules: process.env.FOUNTAIN_MODULES,
     css: 'scss',
     js: process.env.FOUNTAIN_JS,
