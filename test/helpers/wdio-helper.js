@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const webdriverio = require('webdriverio');
 
 const wdioOptions = {
-  logLevel: 'debug',
+  logLevel: 'verbose',
   desiredCapabilities: {
     browserName: 'chrome',
     idleTimeout: 1000
