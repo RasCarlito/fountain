@@ -70,3 +70,6 @@ before_script:
 
 script:
   - mocha test/travis-env
+
+before_cache:
+  - node scripts/unlinks.js
