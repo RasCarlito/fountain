@@ -6,23 +6,7 @@ const fs = require('mz/fs');
 const path = require('path');
 const deps = require('./deps');
 
-// const excludes = ['.DS_Store', 'Sandbox'];
 const versionRegex = /("version" *: *")(\d+\.\d+\.\d+)(")/;
-
-// const currentPath = process.cwd();
-// const fountainRoot = currentPath.substring(0, currentPath.indexOf(fountainFolder) + fountainFolder.length);
-
-// let folderCache = null;
-// exports.folders = function *() {
-//   if (folderCache === null) {
-//     const foldersUnfiltered = yield fs.readdir(fountainRoot);
-//     folderCache = foldersUnfiltered
-//       .filter(folder => excludes.indexOf(folder) === -1)
-//       .map(folder => path.join(fountainRoot, folder));
-//   }
-//   return folderCache;
-// };
-//
 
 exports.folders = function *() {
   const folders = deps()
@@ -67,7 +51,19 @@ exports.readVersion = function *(folder) {
   return version;
 };
 
+exports.updateSubmoduleVersion = function *(folder, submodule, version) {
+  const regex = new RegExp(`("${submodule}" *: *")((\\^)?\\d+\\.\\d+\\.\\d+)(")`);
+  const filePath = path.join(folder, 'package.json');
+  const file = yield fs.readFile(filePath);
+  const newFile = file.toString().replace(regex, `$1$3${version}$4`);
+  yield fs.writeFile(filePath, newFile);
+};
+
 exports.updateVersion = function *(folder, version) {
+  const folders = yield exports.folders();
+  for (const submodule of folders) {
+    yield exports.updateSubmoduleVersion(folder, submodule, version);
+  }
   const filePath = path.join(folder, 'package.json');
   const file = yield fs.readFile(filePath);
   const newFile = file.toString().replace(versionRegex, `$1${version}$3`);
