@@ -1,0 +1,72 @@
+language: node_js
+sudo: true
+node_js:
+  - "5"
+env:
+  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=webpack FOUNTAIN_JS=babel
+  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=webpack FOUNTAIN_JS=js
+  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=webpack FOUNTAIN_JS=typescript
+  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=babel
+  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=js
+  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=typescript
+  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=inject FOUNTAIN_JS=babel
+  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=inject FOUNTAIN_JS=js
+  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=inject FOUNTAIN_JS=typescript
+  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=webpack FOUNTAIN_JS=babel
+  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=webpack FOUNTAIN_JS=js
+  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=webpack FOUNTAIN_JS=typescript
+  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=babel
+  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=js
+  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=typescript
+  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=inject FOUNTAIN_JS=babel
+  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=inject FOUNTAIN_JS=js
+  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=inject FOUNTAIN_JS=typescript
+  - FOUNTAIN_FRAMEWORK=angular2 FOUNTAIN_MODULES=webpack FOUNTAIN_JS=babel
+  - FOUNTAIN_FRAMEWORK=angular2 FOUNTAIN_MODULES=webpack FOUNTAIN_JS=js
+  - FOUNTAIN_FRAMEWORK=angular2 FOUNTAIN_MODULES=webpack FOUNTAIN_JS=typescript
+  - FOUNTAIN_FRAMEWORK=angular2 FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=babel
+  - FOUNTAIN_FRAMEWORK=angular2 FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=js
+  - FOUNTAIN_FRAMEWORK=angular2 FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=typescript
+
+notifications:
+  email: false
+
+git:
+  submodules: false
+
+cache:
+  timeout: 600
+  directories:
+    - node_modules
+    - fountain-generator/node_modules
+    - generator-fountain-angular1/node_modules
+    - generator-fountain-angular2/node_modules
+    - generator-fountain-browsersync/node_modules
+    - generator-fountain-eslint/node_modules
+    - generator-fountain-gulp/node_modules
+    - generator-fountain-inject/node_modules
+    - generator-fountain-karma/node_modules
+    - generator-fountain-react/node_modules
+    - generator-fountain-systemjs/node_modules
+    - generator-fountain-tslint/node_modules
+    - generator-fountain-webapp/node_modules
+    - generator-fountain-webpack/node_modules
+    - test/deps
+    - $(npm config get prefix)/bin/mocha
+    - $(npm config get prefix)/bin/typings
+    - $(npm config get prefix)/bin/bower
+
+before_script:
+  - node test/cache/remove-cache.js
+  - rm -rf fountain-generator/ generator-fountain-*/
+  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - git submodule update --init --recursive
+  - node test/cache/add-cache.js
+  - node scripts/links.js
+  - npm install -g mocha typings bower
+
+script:
+  - mocha test/travis-env
+
+before_cache:
+  - node scripts/unlinks.js

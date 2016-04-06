@@ -3,21 +3,17 @@
 const path = require('path');
 const co = require('co');
 const fountainDeps = require('./deps');
-const exec = require('./exec');
+const fs = require('mz/fs');
 
 const deps = fountainDeps();
-
-const stdio = process.env.TRAVIS === 'true' ? 'ignore' : 'inherit';
 
 co(function *() {
   try {
     for (const dep of deps) {
       const folder = path.join(__dirname, '..', dep.name);
-      console.log(folder, '➜', 'npm link');
-      yield exec('npm', ['link'], {cwd: folder, stdio}).promise;
       for (const sub of dep.deps) {
-        console.log(folder, '➜', `sudo $(which npm) link ${sub}`);
-        yield exec('npm', ['link', sub], {cwd: folder, stdio}).promise;
+        console.log(folder, '➜', `unlink ${sub}`);
+        yield fs.unlink(`./${dep.name}/node_modules/${sub}`);
       }
     }
   } catch (e) {
