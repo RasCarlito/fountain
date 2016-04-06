@@ -52,6 +52,9 @@ cache:
     - generator-fountain-webapp/node_modules
     - generator-fountain-webpack/node_modules
     - test/deps
+    - $(npm config get prefix)/bin/mocha
+    - $(npm config get prefix)/bin/typings
+    - $(npm config get prefix)/bin/bower
 
 addons:
    sauce_connect:
