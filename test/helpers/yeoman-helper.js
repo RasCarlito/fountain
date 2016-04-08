@@ -27,6 +27,7 @@ exports.prepare = function prepare() {
     yield mkdirp(depsPath);
     yield packageFolders.map(folder => mkdirp(path.join(depsPath, folder)));
     yield packageFolders.map(folder => fs.symlink(`../deps/${folder}`, folder));
+    return fountain;
   });
 };
 
@@ -36,5 +37,8 @@ exports.run = function run(prompts) {
   }
 
   const run = Promise.promisify(fountain.run.bind(fountain));
-  return run();
+  return co(function *() {
+    yield run();
+    return fountain;
+  });
 };
