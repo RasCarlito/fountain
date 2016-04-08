@@ -37,7 +37,7 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
     it(`should test linter on ${options.framework}, ${options.modules}, ${options.js}`, function *() {
       yield yeoman.prepare();
       yield yeoman.run(options);
-      // yield linter.linterTest(options);
+      yield linter.linterTest(options);
     });
 
     it(`should work with ${options.framework}, ${options.modules}, ${options.js}`, function *() {

@@ -11,9 +11,9 @@ const workPath = path.join(__dirname, '../../test/work');
 
 exports.linterTest = function *(options) {
   exports.eslint();
-  if (options.js === 'typescript') {
-    yield exports.tslint(options.framework);
-  }
+  // if (options.js === 'typescript') {
+  //   yield exports.tslint(options.framework);
+  // }
 };
 
 exports.eslint = () => {
