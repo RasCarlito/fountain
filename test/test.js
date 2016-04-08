@@ -7,6 +7,7 @@ const gulp = require('./helpers/gulp-helper');
 const yeoman = require('./helpers/yeoman-helper');
 const wdio = require('./helpers/wdio-helper');
 const sauce = require('./helpers/saucelabs-helper');
+const linter = require('./helpers/linter-helper');
 
 describe('fountain travis integration test with saucelabs and webdriver.io', function () {
   this.timeout(0);
@@ -32,6 +33,12 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
       js: combination[2],
       sample: 'techs'
     };
+
+    it(`should test linter on ${options.framework}, ${options.modules}, ${options.js}`, function *() {
+      yield yeoman.prepare();
+      yield yeoman.run(options);
+      yield linter.linterTest(options);
+    });
 
     it(`should work with ${options.framework}, ${options.modules}, ${options.js}`, function *() {
       console.log(`Running test with ${options.framework}, ${options.modules}, ${options.js}`);
