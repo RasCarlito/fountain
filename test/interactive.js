@@ -12,6 +12,8 @@ describe('fountain interactive integration test with saucelabs and webdriver.io'
   this.timeout(0);
 
   before(function *() {
+    yield sauce.connect();
+    yield wdio.init();
     yield yeoman.prepare();
   });
 
@@ -21,8 +23,6 @@ describe('fountain interactive integration test with saucelabs and webdriver.io'
   });
 
   it(`should work with interactive options`, function *() {
-    yield sauce.connect();
-    yield wdio.init();
     const url = yield gulp.serve();
     yield wdio.techsTest(url);
   });
