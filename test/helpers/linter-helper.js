@@ -11,29 +11,22 @@ const workPath = path.join(__dirname, '../../test/work');
 
 exports.linterTest = function *(options) {
   exports.eslint();
-  // if (options.js === 'typescript') {
-  //   yield exports.tslint(options.framework);
-  // }
+  if (options.js === 'typescript') {
+    yield exports.tslint(options.framework);
+  }
 };
 
 exports.eslint = () => {
   const sources = [`${workPath}/conf/**/*.js`, `${workPath}/gulp_tasks/**/*.js`, `${workPath}/src/**/*.js`];
   const report = cli.executeOnFiles(sources);
-  try {
-    expect(report.errorCount).to.equal(0);
-  } catch (error) {
-    console.log(error);
-  }
+  expect(report.errorCount).to.equal(0);
 };
 
 exports.tslint = function *(framework) {
   const extension = framework === 'react' ? 'tsx' : 'ts';
   const paths = yield globby([`${workPath}/src/**/*.${extension}`]);
-  const configuration = {
-    rules: {
-    }
-  };
-
+  const tslintConf = yield fs.readFile(`${workPath}/tslint.json`);
+  const configuration = JSON.parse(tslintConf);
   const options = {
     formatter: 'json',
     configuration
@@ -44,7 +37,6 @@ exports.tslint = function *(framework) {
 
     const ll = new Linter(path, contents, options);
     const result = ll.lint();
-    console.log(result);
     failureCount += result.failureCount;
   }
   expect(failureCount).to.equal(0);
