@@ -12,6 +12,7 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
 
   before(function *() {
     yield wdio.init();
+    yield yeoman.prepare();
   });
 
   const options = {
