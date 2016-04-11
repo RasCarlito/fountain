@@ -28,7 +28,6 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
   });
 
   it(`should work with ${options.framework}, ${options.modules}, ${options.js}`, function *() {
-    yield yeoman.prepare();
     yield yeoman.run(options);
     const url = yield gulp.serve();
     yield wdio.techsTest(url);
