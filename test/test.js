@@ -9,13 +9,12 @@ const wdio = require('./helpers/wdio-helper');
 const sauce = require('./helpers/saucelabs-helper');
 const linter = require('./helpers/linter-helper');
 
-describe('fountain travis integration test with saucelabs and webdriver.io', function () {
+describe('fountain travis integration test with saucelabs and webdriver.io', () => {
   this.timeout(0);
 
   before(function *() {
     yield sauce.connect();
     yield wdio.init();
-    yield yeoman.prepare();
   });
 
   const combinations = product([
@@ -35,19 +34,25 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
       sample: 'techs'
     };
 
-    it(`should test linter on ${options.framework}, ${options.modules}, ${options.js}`, function *() {
-      yield yeoman.run(options);
-      yield linter.linterTest(options);
-    });
+    describe(`tests with ${options.framework}, ${options.modules}, ${options.js}`, () => {
+      before(function *() {
+        yield yeoman.prepare();
+      });
 
-    it(`should work with ${options.framework}, ${options.modules}, ${options.js}`, function *() {
-      console.log(`Running test with ${options.framework}, ${options.modules}, ${options.js}`);
-      yield yeoman.run(options);
-      const url = yield gulp.serve();
-      yield wdio.techsTest(url);
-      console.log('End of test');
-      gulp.killServe();
-      console.log('Server killed');
+      it(`should test linter on ${options.framework}, ${options.modules}, ${options.js}`, function *() {
+        yield yeoman.run(options);
+        yield linter.linterTest(options);
+      });
+
+      it(`should work with ${options.framework}, ${options.modules}, ${options.js}`, function *() {
+        console.log(`Running test with ${options.framework}, ${options.modules}, ${options.js}`);
+        yield yeoman.run(options);
+        const url = yield gulp.serve();
+        yield wdio.techsTest(url);
+        console.log('End of test');
+        gulp.killServe();
+        console.log('Server killed');
+      });
     });
   });
 
