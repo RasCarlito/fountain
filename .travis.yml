@@ -28,6 +28,7 @@ cache:
     - $(npm config get prefix)/bin/mocha
     - $(npm config get prefix)/bin/typings
     - $(npm config get prefix)/bin/bower
+    - $(npm config get prefix)/bin/jspm
 
 addons:
    sauce_connect:
@@ -42,7 +43,7 @@ before_script:
   - git submodule update --init --recursive
   - node test/cache/add-cache.js
   - node scripts/links.js
-  - npm install -g mocha typings bower
+  - npm install -g mocha typings bower jspm
 
 script:
   - mocha test/travis
