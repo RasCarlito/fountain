@@ -1,4 +1,4 @@
 node_modules
 test/deps
-work
+test/work
 *.creds.json
