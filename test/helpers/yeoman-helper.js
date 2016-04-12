@@ -20,6 +20,7 @@ let fountain;
 
 exports.prepare = function prepare() {
   fountain = helpers.createGenerator('fountain-webapp:app', [generatorPath], null);
+  fountain.env.cwd = workPath;
 
   return co(function *() {
     yield testDirectory(workPath);
