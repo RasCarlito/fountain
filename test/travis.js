@@ -8,7 +8,7 @@ const yeoman = require('./helpers/yeoman-helper');
 const wdio = require('./helpers/wdio-helper');
 const linter = require('./helpers/linter-helper');
 
-describe('fountain travis integration test with saucelabs and webdriver.io', () => {
+describe('fountain travis integration test with saucelabs and webdriver.io', function () {
   this.timeout(0);
 
   before(function *() {
