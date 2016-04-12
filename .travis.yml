@@ -2,31 +2,6 @@ language: node_js
 sudo: false
 node_js:
   - "5"
-env:
-  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=webpack FOUNTAIN_JS=babel
-  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=webpack FOUNTAIN_JS=js
-  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=webpack FOUNTAIN_JS=typescript
-  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=babel
-  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=js
-  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=typescript
-  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=inject FOUNTAIN_JS=babel
-  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=inject FOUNTAIN_JS=js
-  - FOUNTAIN_FRAMEWORK=react FOUNTAIN_MODULES=inject FOUNTAIN_JS=typescript
-  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=webpack FOUNTAIN_JS=babel
-  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=webpack FOUNTAIN_JS=js
-  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=webpack FOUNTAIN_JS=typescript
-  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=babel
-  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=js
-  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=typescript
-  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=inject FOUNTAIN_JS=babel
-  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=inject FOUNTAIN_JS=js
-  - FOUNTAIN_FRAMEWORK=angular1 FOUNTAIN_MODULES=inject FOUNTAIN_JS=typescript
-  - FOUNTAIN_FRAMEWORK=angular2 FOUNTAIN_MODULES=webpack FOUNTAIN_JS=babel
-  - FOUNTAIN_FRAMEWORK=angular2 FOUNTAIN_MODULES=webpack FOUNTAIN_JS=js
-  - FOUNTAIN_FRAMEWORK=angular2 FOUNTAIN_MODULES=webpack FOUNTAIN_JS=typescript
-  - FOUNTAIN_FRAMEWORK=angular2 FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=babel
-  - FOUNTAIN_FRAMEWORK=angular2 FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=js
-  - FOUNTAIN_FRAMEWORK=angular2 FOUNTAIN_MODULES=systemjs FOUNTAIN_JS=typescript
 
 notifications:
   email: false
@@ -72,7 +47,7 @@ before_script:
   - npm install -g mocha typings bower
 
 script:
-  - mocha test/travis-env
+  - mocha test/travis
 
 before_cache:
   - node scripts/unlinks.js

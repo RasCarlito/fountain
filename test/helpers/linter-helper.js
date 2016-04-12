@@ -34,7 +34,6 @@ exports.tslint = function *(framework) {
   let failureCount = 0;
   for (const path of paths) {
     const contents = yield fs.readFile(path, 'utf8');
-
     const ll = new Linter(path, contents, options);
     const result = ll.lint();
     failureCount += result.failureCount;

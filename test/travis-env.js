@@ -5,12 +5,14 @@ require('co-mocha');
 const gulp = require('./helpers/gulp-helper');
 const yeoman = require('./helpers/yeoman-helper');
 const wdio = require('./helpers/wdio-helper');
+const linter = require('./helpers/linter-helper');
 
 describe('fountain travis integration test with saucelabs and webdriver.io', function () {
   this.timeout(0);
 
   before(function *() {
     yield wdio.init();
+    yield yeoman.prepare();
   });
 
   const options = {
@@ -21,9 +23,12 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
     sample: 'techs'
   };
 
-  it(`should work with ${options.framework}, ${options.modules}, ${options.js}`, function *() {
-    yield yeoman.prepare();
+  it(`should test linter on ${options.framework}, ${options.modules}, ${options.js}`, function *() {
     yield yeoman.run(options);
+    yield linter.linterTest(options);
+  });
+
+  it(`should work with ${options.framework}, ${options.modules}, ${options.js}`, function *() {
     const url = yield gulp.serve();
     yield wdio.techsTest(url);
     gulp.killServe();
