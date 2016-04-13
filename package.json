@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/test",
-    "linkAll": "node scripts/links"
+    "test": "mocha test/travis",
+    "linkAll": "node scripts/links",
+    "unlinkAll": "node scripts/unlinks"
   },
   "author": "",
   "license": "MIT",
