@@ -40,11 +40,11 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
         yield yeoman.run(options);
       });
 
-      it(`should test linter on ${options.framework}, ${options.modules}, ${options.js}`, function *() {
+      it('should test linter', function *() {
         yield linter.linterTest(options);
       });
 
-      it(`should work with ${options.framework}, ${options.modules}, ${options.js}`, function *() {
+      it('should run "gulp serve" and e2e on number of Techs listed', function *() {
         console.log(`Running test with ${options.framework}, ${options.modules}, ${options.js}`);
         const url = yield gulp.serve();
         yield wdio.techsTest(url);
