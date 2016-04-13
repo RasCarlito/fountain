@@ -19,6 +19,9 @@ exports.linterTest = function *(options) {
 exports.eslint = () => {
   const sources = [`${workPath}/conf/**/*.js`, `${workPath}/gulp_tasks/**/*.js`, `${workPath}/src/**/*.js`];
   const report = cli.executeOnFiles(sources);
+  const formatter = cli.getFormatter();
+  console.log(formatter(report.results));
+
   expect(report.errorCount).to.equal(0);
 };
 
