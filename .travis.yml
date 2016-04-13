@@ -27,7 +27,6 @@ cache:
     - generator-fountain-webapp/node_modules
     - generator-fountain-webpack/node_modules
     - test/deps
-    - $(npm config get prefix)/bin/mocha
     - $(npm config get prefix)/bin/typings
     - $(npm config get prefix)/bin/bower
     - $(npm config get prefix)/bin/jspm
@@ -53,13 +52,13 @@ before_script:
   - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   - git submodule update --init --recursive
   - node test/cache/restore-node_modules.js
-  - node scripts/links.js
-  - npm install -g mocha typings bower jspm
+  - npm run linkAll
+  - npm install -g typings bower jspm
 
 # Run test
 script:
-  - mocha test/travis
+  - npm test
 
 # Avoid failed caching by Travis
 before_cache:
-  - node scripts/unlinks.js
+  - npm run unlinkAll
