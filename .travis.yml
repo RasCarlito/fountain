@@ -9,7 +9,7 @@ sudo: required
 dist: trusty
 
 # Use Chrome as default browser
-before_install:  
+before_install:
  - export CHROME_BIN=/usr/bin/google-chrome
  - export DISPLAY=:99.0
  - sh -e /etc/init.d/xvfb start
@@ -37,9 +37,6 @@ cache:
     - generator-fountain-webapp/node_modules
     - generator-fountain-webpack/node_modules
     - test/deps
-    - $(npm config get prefix)/bin/typings
-    - $(npm config get prefix)/bin/bower
-    - $(npm config get prefix)/bin/jspm
 
 # Configure Sauce Labs fot e2e tests
 addons:
@@ -63,7 +60,6 @@ before_script:
   - git submodule update --init --recursive
   - node test/cache/restore-node_modules.js
   - npm run linkAll
-  - npm install -g typings bower jspm
 
 # Run test
 script:
