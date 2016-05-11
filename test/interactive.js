@@ -28,13 +28,19 @@ describe('fountain interactive integration test with saucelabs and webdriver.io'
     unit.unitTests(result);
   });
 
-  it(`should work with interactive options`, function *() {
+  it('should run "gulp serve" and e2e on number of Techs listed', function *() {
     const url = yield gulp.serve();
     yield wdio.techsTest(url);
+    gulp.killServe();
+  });
+
+  it('should run "gulp serve:dist" and e2e on number of Techs listed', function *() {
+    const url = yield gulp.serveDist();
+    yield wdio.techsTest(url);
+    gulp.killServe();
   });
 
   after(function *() {
-    gulp.killServe();
     yield wdio.close();
     yield sauce.close();
   });
