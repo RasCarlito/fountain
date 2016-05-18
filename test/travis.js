@@ -22,7 +22,10 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
     ['babel', 'js', 'typescript']
   ])
     // Angular 2 and Bower are not supported right now
-    .filter(combination => combination[0] !== 'angular2' || combination[1] !== 'inject');
+    .filter(combination => combination[0] !== 'angular2' || combination[1] !== 'inject')
+    // TODO remove when https://github.com/jspm/jspm-cli/issues/1774 fixed
+    .filter(combination => combination[0] !== 'angular2' || combination[1] !== 'systemjs' || combination[2] === 'typescript')
+    .filter(combination => combination[0] !== 'react' || combination[1] !== 'systemjs' || combination[2] === 'typescript');
 
   combinations.forEach(combination => {
     const options = {
@@ -51,9 +54,12 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
       it('should run "gulp serve" and e2e on number of Techs listed', function *() {
         const url = yield gulp.serve();
         yield wdio.techsTest(url);
+        gulp.killServe();
       });
 
-      after(function *() {
+      it('should run "gulp serve:dist" and e2e on number of Techs listed', function *() {
+        const url = yield gulp.serveDist();
+        yield wdio.techsTest(url);
         gulp.killServe();
       });
     });

@@ -7,13 +7,13 @@ const testRegex = /Finished 'test'/;
 
 let serveProcess = null;
 
-exports.serve = function serve() {
+function execServe(task) {
   return new Promise(resolve => {
     let logs = '';
     if (serveProcess !== null) {
       console.warn('Server process still running !!!!');
     }
-    serveProcess = exec('gulp', ['serve'], {stdio: 'pipe'}).process;
+    serveProcess = exec('gulp', [task], {stdio: 'pipe'}).process;
     serveProcess.stderr.pipe(process.stderr);
     serveProcess.stdout.pipe(spy(chunk => {
       logs += chunk.toString();
@@ -23,11 +23,20 @@ exports.serve = function serve() {
       }
     })).pipe(process.stdout);
   });
+}
+
+exports.serve = function serve() {
+  return execServe(['serve']);
+};
+
+exports.serveDist = function serveDist() {
+  return execServe(['serve:dist']);
 };
 
 exports.killServe = function killServe() {
   serveProcess.kill('SIGTERM');
   serveProcess = null;
+  console.log('Gulp serve killed!');
 };
 
 exports.test = function () {

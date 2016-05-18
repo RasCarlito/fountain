@@ -4,21 +4,15 @@ node_js:
   - '5'
   - '4'
 
-# Use Ubuntu Trusty 14.04
-sudo: required
-dist: trusty
-
-# Use Chrome as default browser
-before_install:
- - export CHROME_BIN=/usr/bin/google-chrome
- - export DISPLAY=:99.0
- - sh -e /etc/init.d/xvfb start
-
 # Deactive fetch submodules by Travis. (e.g. before_script)
 git:
   submodules: false
 
-# Enable cache for all node_modules + needed globals packages
+before_install:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+
+# Enable cache for all node_modules
 cache:
   timeout: 600
   directories:
@@ -38,12 +32,14 @@ cache:
     - generator-fountain-webpack/node_modules
     - test/deps
 
-# Configure Sauce Labs fot e2e tests
 addons:
-   sauce_connect:
-     username: "Swiip"
-     access_key:
-       secure: "xOc4vSbmwnufZY8MY/4pCzZX+6smPvgG6wHptArP1KIeBMpk6MG+LL8a5w23rVpNJzMO1iIRFDDZ5sAkrbvsXOKxZBkF123mG0JPvpYNhCQHxBgnqLvFTXeWoTb1G1dhhy1NklO4Y58ndLroiQ/ZkyPTFLiMv6uFU8GY7WeP3dw6VTCkXToGUgDNiW8bitGaiadVhVa3XzK/lNs9o6dAa6kl+bZ/UNCtrFFUmPFkcsY+99f37RzwRuzYWXEvguPY2N5zmuiohFL/XSlu73LeuF5UWxGHUtKKHiyt4VmNZCp2b3oL8EqtyBKFvAZJI5m9jfMgZ5SWgo+wBGZ/5N6nvDm3QsKoSQ6uJ0v0mEweysgh2pQ7abL5fvzF8mrDBZVoPyp/cOzTiUbLGRg02NsTxLtlKbG1rB8sO8qsyUcypFaEPzgCGIUlA/ibtkAOW7cVvsHiG5N3MFDOSHrwFFNEpyhIHdMj3VTU9tyPejWgIi25i6oUsscnAx/osrn2CgI5OieZlYn9M+HqEghMo/ikCNBQAwVr8c/VF6Z/lau1IPHOJg9//aMQwwrrnrgzzyH5vXXqvN9Yc/rxPi9ZPRGg0ImMTM4gNcZr/nVQRgqQ3nB/oqkEqZRmAK8HenZT8S6B1UCUhYx4zkLVsWXAuPVkPCL1K7jsYQHR3R7ygAYcgT4="
+  # Install Firefox
+  firefox: "46.0"
+  # Configure Sauce Labs fot e2e tests
+  sauce_connect:
+    username: "zckrs"
+    access_key:
+      secure: "GRCFdTA5lYr51KaW4UAMV/oDxnm0CoPeYs1hZ2fynvv24X9KJhpukCNZNfYBVRg31gMUxGSzPOllFaHNBoExwb7/F7nndpG2FtBMlp8K22iGYDr8flRFJhd+5KJJRO4ed7z7hfHrbIwq3E2anoByh0NIFn5YO4FDwnf2ObFlFLAtyGppcTvr/UWpqzovFZLlAwU89YRZIFh7nzFUT2IU2BEWlR0TvVIhhNflpw7oScQDNtptZbGVKrJAMWT5VO15gTd97LKjyluHedZ6xWsN8TlOG2PSykI+7YYbz5Sat9l6PfBV2G4Nk5MOXivvW5mHZmXKcdGTfAoDGu9VSYFC+JdeW6DfOvS/ALagDaqmqKUyUY9eWRmt0UEMNoKhiCCe8agW2J3SiVaGVcobtCoB01nEU9iBmaVKAoZu9HbirSyEyc4j3DuQl8gAHEm/JOoTRFVIB/R7t9DPOjuFN5tHnGwO1tjkQtjCVuIz+feC3+EL819zuYCjzJ39MbQJZIiDtrsuBTkWj/SU5ECJgLyTM+qsI87XGVhtsD4UaWTCehvjs915yyLmGwm/D7dRHtno624e0zJo2Y4HHFOcKj1YXf2DaJI8NsApcyfOSWHg/O3yTURcNC/hKQ1avPDtaLpPYG3b4bpU4ubfyZCjzgjELEC7SpiL3AV17ieBCr2h3tM="
 
 # Prepare build:
 #   * Backup node_modules in ./temp/ provided by caches Travis
@@ -59,6 +55,7 @@ before_script:
   - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   - git submodule update --init --recursive
   - node test/cache/restore-node_modules.js
+  - npm install --global npm@latest
   - npm run linkAll
 
 # Run test
