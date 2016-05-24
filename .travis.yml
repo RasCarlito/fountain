@@ -1,8 +1,8 @@
 language: node_js
 
 node_js:
-  - '5'
   - '4'
+  - stable
 
 # Deactive fetch submodules by Travis. (e.g. before_script)
 git:
