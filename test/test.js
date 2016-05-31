@@ -24,7 +24,7 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
     ['babel', 'js', 'typescript']
   ])
     // Angular 2 and Bower are not supported right now
-    .filter(combination => combination[0] !== 'angular2' || combination[1] !== 'inject')
+    .filter(combination => combination[0] !== 'angular2' || combination[1] !== 'inject');
 
   combinations.forEach(combination => {
     const options = {
