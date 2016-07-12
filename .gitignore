@@ -2,3 +2,4 @@ node_modules
 test/deps
 test/work
 *.creds.json
+dist
