@@ -3,3 +3,4 @@ test/deps
 test/work
 *.creds.json
 dist
+.DS_Store

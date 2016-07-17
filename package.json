@@ -44,5 +44,8 @@
     "env": {
       "mocha": true
     }
+  },
+  "dependencies": {
+    "archiver": "^1.0.0"
   }
 }
