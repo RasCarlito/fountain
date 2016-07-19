@@ -74,5 +74,4 @@ before_cache:
   - npm run unlinkAll
 
 after_success:
-  - echo $TRAVIS_TAG
-  - if [ ! -z "$TRAVIS_TAG" ] && [[ ${TRAVIS_JOB_NUMBER} == *".1" ]]; then node ./scripts/dist; node ./scripts/upload; fi
+  - node ./scripts/bin/deploy
