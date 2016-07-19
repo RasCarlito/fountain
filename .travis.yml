@@ -66,12 +66,10 @@ before_script:
   - npm run linkAll
 
 # Run test
-# script:
+script:
 #   - npm test
+  - node ./scripts/bin/deploy
 
 # Avoid failed caching by Travis
 before_cache:
   - npm run unlinkAll
-
-after_success:
-  - node ./scripts/bin/deploy
