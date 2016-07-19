@@ -29,7 +29,7 @@ try {
         method: 'POST',
         body: form,
         headers: form.getHeaders()
-      });
+      }).catch(console.error);
     }
   });
 } catch (error) {

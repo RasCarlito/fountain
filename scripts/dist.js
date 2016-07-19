@@ -13,8 +13,8 @@ const zip = require('./helpers/zip');
 
 const generatorPath = path.join(__dirname, '../generator-fountain-webapp/generators/app');
 
-try {
-  co(function *() {
+co(function *() {
+  try {
     yield rimraf(path.join(__dirname, `../dist`));
 
     for (const options of combinations.full()) {
@@ -33,7 +33,7 @@ try {
       yield zip.zipFolder(combinationPath, `${combinationPath}.zip`);
       console.log('Generated', combinationPath);
     }
-  });
-} catch (error) {
-  console.log('Something went wrong', error);
-}
+  } catch (error) {
+    console.log('Something went wrong', error);
+  }
+});
