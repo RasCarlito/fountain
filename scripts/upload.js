@@ -10,6 +10,7 @@ const githubUploadUrl = 'https://uploads.github.com/repos/FountainJS/fountain';
 
 function exec(command, args) {
   const result = spawn.sync(command, args);
+  console.log(result.stdout.toString());
   try {
     return JSON.parse(result.stdout.toString());
   } catch (error) {
@@ -37,7 +38,6 @@ function githubUploadRequest(partialUrl, params) {
     githubUploadUrl + partialUrl
   ]);
 }
-
 githubApiRequest('/releases', {
   method: 'POST',
   body: JSON.stringify({tag_name: process.env.TRAVIS_TAG}) // eslint-disable-line camelcase
