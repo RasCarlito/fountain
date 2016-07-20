@@ -33,7 +33,7 @@ function githubUploadRequest(partialUrl, params) {
     '-H', `Authorization: token ${process.env.GITHUB_TOKEN}`,
     '-H', `Content-Type: application/zip`,
     '-X', params.method,
-    '--data-binary', params.filePath,
+    '--data-binary', `@${params.filePath}`,
     githubUploadUrl + partialUrl
   ]);
 }
