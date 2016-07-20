@@ -10,7 +10,6 @@ const githubUploadUrl = 'https://uploads.github.com/repos/FountainJS/fountain';
 
 function exec(command, args) {
   const result = spawn.sync(command, args);
-  console.log(result.stdout.toString());
   try {
     return JSON.parse(result.stdout.toString());
   } catch (error) {
@@ -19,11 +18,11 @@ function exec(command, args) {
 }
 
 function githubApiRequest(partialUrl, params) {
-  console.log(params.method, githubApiUrl + partialUrl);
+  console.log(params.method, githubApiUrl + partialUrl, params.body);
   return exec('curl', [
     '-H', `Authorization: token ${process.env.GITHUB_TOKEN}`,
     '-X', params.method,
-    '-d', `'${params.body}'`,
+    '-d', params.body,
     githubApiUrl + partialUrl
   ]);
 }
@@ -38,15 +37,20 @@ function githubUploadRequest(partialUrl, params) {
     githubUploadUrl + partialUrl
   ]);
 }
-githubApiRequest('/releases', {
+
+const createTagResult = githubApiRequest('/releases', {
   method: 'POST',
   body: JSON.stringify({tag_name: process.env.TRAVIS_TAG}) // eslint-disable-line camelcase
 });
+
+console.log(createTagResult);
 
 const tag = githubApiRequest(`/releases/tags/${process.env.TRAVIS_TAG}`, {
   method: 'GET',
   body: ''
 });
+
+console.log('Tag ID', tag.id);
 
 combinations.full().forEach(options => {
   const fileName = `${options.framework}-${options.modules}-${options.js}-${options.css}-${options.router}-${options.sample}.zip`;
