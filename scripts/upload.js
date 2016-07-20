@@ -1,72 +1,59 @@
 'use strict';
 
-const fs = require('fs');
 const path = require('path');
-const co = require('co');
-const fetch = require('node-fetch');
+const spawn = require('cross-spawn');
 
 const combinations = require('./helpers/combinations');
 
 const githubApiUrl = 'https://api.github.com/repos/FountainJS/fountain';
 const githubUploadUrl = 'https://uploads.github.com/repos/FountainJS/fountain';
 
-function githubRequest(rootUrl, partialUrl, params) {
-  if (!params.headers) {
-    params.headers = {};
+function exec(command, args) {
+  const result = spawn.sync(command, args);
+  try {
+    return JSON.parse(result.stdout.toString());
+  } catch (error) {
+    return result.stdout.toString();
   }
-  params.headers.Authorization = `token ${process.env.GITHUB_TOKEN}`;
-
-  console.log(params.method, partialUrl);
-
-  return fetch(`${rootUrl}${partialUrl}`, params)
-    .then(response => {
-      if (response.status === 200) {
-        return response.json();
-      }
-      return response.text();
-    })
-    .then(response => {
-      console.log(response);
-      return response;
-    })
-    .catch(console.error);
 }
 
 function githubApiRequest(partialUrl, params) {
-  return githubRequest(githubApiUrl, partialUrl, params);
+  console.log(params.method, githubApiUrl + partialUrl);
+  return exec('curl', [
+    '-H', `Authorization: token ${process.env.GITHUB_TOKEN}`,
+    '-X', params.method,
+    '-d', `'${params.body}'`,
+    githubApiUrl + partialUrl
+  ]);
 }
 
 function githubUploadRequest(partialUrl, params) {
-  return githubRequest(githubUploadUrl, partialUrl, params);
+  console.log(params.method, githubUploadUrl + partialUrl, params.filePath);
+  return exec('curl', [
+    '-H', `Authorization: token ${process.env.GITHUB_TOKEN}`,
+    '-H', `Content-Type: application/zip`,
+    '-X', params.method,
+    '--data-binary', params.filePath,
+    githubUploadUrl + partialUrl
+  ]);
 }
 
-try {
-  co(function *() {
-    yield githubApiRequest('/releases', {
-      method: 'POST',
-      body: JSON.stringify({tag_name: process.env.TRAVIS_TAG}) // eslint-disable-line camelcase
-    });
+githubApiRequest('/releases', {
+  method: 'POST',
+  body: JSON.stringify({tag_name: process.env.TRAVIS_TAG}) // eslint-disable-line camelcase
+});
 
-    const tag = yield githubApiRequest(`/releases/tags/${process.env.TRAVIS_TAG}`, {
-      method: 'GET'
-    });
+const tag = githubApiRequest(`/releases/tags/${process.env.TRAVIS_TAG}`, {
+  method: 'GET',
+  body: ''
+});
 
-    for (const options of combinations.full()) {
-      const fileName = `${options.framework}-${options.modules}-${options.js}-${options.css}-${options.router}-${options.sample}.zip`;
-      const combinationPath = path.join(__dirname, `../dist/${fileName}`);
+combinations.full().forEach(options => {
+  const fileName = `${options.framework}-${options.modules}-${options.js}-${options.css}-${options.router}-${options.sample}.zip`;
+  const combinationPath = path.join(__dirname, `../dist/${fileName}`);
 
-      const body = fs.readFileSync(combinationPath);
-
-      yield githubUploadRequest(`/releases/${tag.id}/assets?name=${fileName}`, {
-        method: 'POST',
-        body,
-        headers: {
-          'Content-Type': 'application/zip',
-          'Content-Length': body.length
-        }
-      });
-    }
+  githubUploadRequest(`/releases/${tag.id}/assets?name=${fileName}`, {
+    method: 'POST',
+    filePath: combinationPath
   });
-} catch (error) {
-  console.log('Something went wrong', error);
-}
+});
