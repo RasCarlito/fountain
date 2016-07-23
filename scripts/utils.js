@@ -44,6 +44,9 @@ exports.execOnEach = function *(command) {
   });
   return results;
 };
+exports.exec = function *(command) {
+  return yield exec(command);
+};
 
 exports.readVersion = function *(folder) {
   const file = yield fs.readFile(path.join(folder, 'package.json'));

@@ -83,6 +83,7 @@ co(function *() {
 
     console.log('Tagging git...');
     yield utils.execOnEach(`git tag v${version} && git push origin v${version}`);
+    yield utils.exec(`git tag v${version} && git push origin v${version}`);
     console.log('ok!');
 
     console.log('Publishing on NPM...');
