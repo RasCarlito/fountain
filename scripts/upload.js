@@ -56,8 +56,9 @@ combinations.full().forEach(options => {
   const fileName = `${options.framework}-${options.modules}-${options.js}-${options.css}-${options.router}-${options.sample}.zip`;
   const combinationPath = path.join(__dirname, `../dist/${fileName}`);
 
-  githubUploadRequest(`/releases/${tag.id}/assets?name=${fileName}`, {
+  const uploadResponse = githubUploadRequest(`/releases/${tag.id}/assets?name=${fileName}`, {
     method: 'POST',
     filePath: combinationPath
   });
+  console.log('Upload response', uploadResponse);
 });
