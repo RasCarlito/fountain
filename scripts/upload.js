@@ -61,4 +61,6 @@ combinations.full().forEach(options => {
     filePath: combinationPath
   });
   console.log('Upload response', uploadResponse);
+
+  exec('sleep', [3]);
 });
