@@ -7,7 +7,7 @@ const mkdirp = require('mkdirp-promise');
 const rimraf = require('rimraf-promise');
 const Promise = require('bluebird');
 
-// const output = require('./helpers/mute');
+const output = require('./helpers/mute');
 const combinations = require('./helpers/combinations');
 const zip = require('./helpers/zip');
 
@@ -27,9 +27,9 @@ co(function *() {
       fountain.env.cwd = combinationPath;
       helpers.mockPrompt(fountain, options);
       const run = Promise.promisify(fountain.run.bind(fountain));
-      // output.mute();
+      output.mute();
       yield run();
-      // output.unmute();
+      output.unmute();
       yield zip.zipFolder(combinationPath, `${combinationPath}.zip`);
       console.log('Generated', combinationPath);
     }
