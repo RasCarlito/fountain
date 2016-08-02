@@ -60,7 +60,7 @@ combinations.full().forEach(options => {
     method: 'POST',
     filePath: combinationPath
   });
-  console.log('Upload response', uploadResponse);
-
-  exec('sleep', [3]);
+  if (uploadResponse.message) {
+    console.log('Upload response has message', uploadResponse);
+  }
 });
