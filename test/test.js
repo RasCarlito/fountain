@@ -33,7 +33,8 @@ describe('fountain travis integration test with saucelabs and webdriver.io', fun
       css: 'scss',
       js: combination[2],
       sample: 'techs',
-      router: combination[0] === 'angular1' ? 'uirouter' : 'router'
+      router: combination[0] === 'angular1' ? 'uirouter' : 'router',
+      ci: 'travis'
     };
 
     describe(`tests with ${options.framework}, ${options.modules}, ${options.js}`, () => {
