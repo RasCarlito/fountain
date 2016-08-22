@@ -44,7 +44,7 @@
     "yeoman-test": "^1.1.0"
   },
   "scripts": {
-    "test": "mocha test/travis",
+    "test": "mocha test/travis-techs",
     "linkAll": "node scripts/links",
     "unlinkAll": "node scripts/unlinks"
   },
