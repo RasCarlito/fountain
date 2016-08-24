@@ -18,6 +18,7 @@ exports.full = function full() {
       js: combination[2],
       css: combination[3],
       sample: combination[4],
-      router: combination[0] === 'angular1' ? 'uirouter' : 'router'
+      router: combination[0] === 'angular1' ? 'uirouter' : 'router',
+      ci: []
     }));
 };
